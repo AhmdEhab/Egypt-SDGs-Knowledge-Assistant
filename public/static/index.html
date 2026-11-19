@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#047857">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Egypt SDGs Knowledge Assistant | مساعد المعرفة لأهداف التنمية المستدامة</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js & Marked for Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-container">
+                <div class="branding">
+                    <div class="logo-box">
+                        <span class="logo-icon">🇪🇬</span>
+                        <div class="sdg-stripe"></div>
+                    </div>
+                    <div class="brand-text">
+                        <h1 id="app-title">مساعد المعرفة لأهداف التنمية المستدامة في مصر</h1>
+                        <p id="app-subtitle">استكشف تقارير توطين أهداف التنمية المستدامة الرسمية الصادرة عن وزارة التخطيط والتنمية الاقتصادية</p>
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <button id="ingestion-modal-btn" class="btn-secondary" title="بيانات قاعدة المعرفة">
+                        <span class="icon">📊</span>
+                        <span class="btn-text btn-text-responsive" id="kb-stats-text">55 تقريراً</span>
+                    </button>
+                    <button id="clear-chat-btn" class="btn-secondary" title="بدء محادثة جديدة">
+                        <span class="icon">🗑️</span>
+                        <span class="btn-text btn-text-responsive" id="clear-text">مسح</span>
+                    </button>
+                    <div class="lang-switch">
+                        <button id="lang-ar-btn" class="lang-btn active">عربي</button>
+                        <button id="lang-en-btn" class="lang-btn">EN</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Chat Area -->
+        <main class="chat-container">
+            <!-- Messages Scroll Area -->
+            <div id="messages-list" class="messages-list">
+                <!-- Welcome Card -->
+                <div id="welcome-card" class="welcome-card">
+                    <div class="welcome-header">
+                        <div class="badge-pill" id="badge-official">🏛️ مصدر رسمي معتمد</div>
+                        <h2 id="welcome-title">مرحباً بك في المنصة الذكية لتقارير التنمية المستدامة</h2>
+                        <p id="welcome-desc">
+                            يتيح هذا المساعد التفاعلي للمشاركين في العرض التقديمي الاستفسار عن المؤشرات والإحصاءات والمستهدفات الخاصة بمحافظات مصر الـ 27، والمقارنة بين <strong>الإصدار الأول (2021)</strong> و<strong>الإصدار الثاني (2024)</strong> وتقرير الملخص العام وفق منهجية منظمة التعاون الاقتصادي والتنمية (OECD).
+                        </p>
+                    </div>
+
+                    <div class="suggested-section">
+                        <h3 id="suggested-heading">💡 أسئلة استرشادية مقترحة:</h3>
+                        <div class="suggested-grid">
+                            <button class="suggested-chip" data-question="ما هو وضع محافظة الغربية في تحقيق أهداف التنمية المستدامة؟" data-question-en="What are the main sustainable development challenges in Gharbia?">
+                                <span class="chip-icon">🏛️</span>
+                                <div class="chip-content">
+                                    <strong class="chip-cat" id="cat-gov">استكشاف محافظة</strong>
+                                    <span class="chip-text">وضع محافظة الغربية في أهداف التنمية المستدامة</span>
+                                </div>
+                            </button>
+
+                            <button class="suggested-chip" data-question="قارن أداء محافظة القاهرة ومحافظة الإسكندرية." data-question-en="Compare the performance of Cairo and Alexandria.">
+                                <span class="chip-icon">⚖️</span>
+                                <div class="chip-content">
+                                    <strong class="chip-cat" id="cat-compare">مقارنة محافظتين</strong>
+                                    <span class="chip-text">مقارنة أداء القاهرة والإسكندرية</span>
+                                </div>
+                            </button>
+
+                            <button class="suggested-chip" data-question="ما هو أداء المحافظات في الهدف الرابع الخاص بالتعليم؟" data-question-en="Which governorates show stronger performance in SDG 4 (Education)?">
+                                <span class="chip-icon">🎯</span>
+                                <div class="chip-content">
+                                    <strong class="chip-cat" id="cat-sdg">استكشاف هدف أممي</strong>
+                                    <span class="chip-text">أداء المحافظات في الهدف الرابع (التعليم)</span>
+                                </div>
+                            </button>
+
+                            <button class="suggested-chip" data-question="ما هي أهم المؤشرات التي تحتاج إلى تحسين في محافظة البحيرة؟" data-question-en="What are the main indicators needing improvement in Beheira?">
+                                <span class="chip-icon">📊</span>
+                                <div class="chip-content">
+                                    <strong class="chip-cat" id="cat-indicator">تحليل المؤشرات والتحديات</strong>
+                                    <span class="chip-text">أهم المؤشرات التي تحتاج لتحسين في البحيرة</span>
+                                </div>
+                            </button>
+
+                            <button class="suggested-chip" data-question="هل حصل تحسن بين الإصدار الأول والإصدار الثاني في الغربية؟" data-question-en="Compare report editions for Gharbia.">
+                                <span class="chip-icon">🔄</span>
+                                <div class="chip-content">
+                                    <strong class="chip-cat" id="cat-edition">مقارنة الإصدارات</strong>
+                                    <span class="chip-text">التحسن بين الإصدار الأول والإصدار الثاني</span>
+                                </div>
+                            </button>
+
+                            <button class="suggested-chip" data-question="ما هي مستهدفات التنمية المستدامة لعام 2030؟" data-question-en="What are Egypt's 2030 Sustainable Development targets?">
+                                <span class="chip-icon">🎯</span>
+                                <div class="chip-content">
+                                    <strong class="chip-cat" id="cat-targets">مستهدفات 2030</strong>
+                                    <span class="chip-text">مستهدفات رؤية مصر 2030 على المستوى المحلي</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Form -->
+            <div class="chat-input-bar">
+                <form id="chat-form" class="input-form">
+                    <div class="input-wrapper">
+                        <textarea id="user-input" rows="1" placeholder="اسأل سؤالاً عن أي محافظة أو مؤشر أممي في التقارير الرسمية..." autofocus></textarea>
+                        <button type="submit" id="send-btn" class="send-btn" title="إرسال">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <div class="input-footer">
+                    <span id="footer-note">📌 يتم الاعتماد حصرياً على البيانات الرسمية لتقارير توطين أهداف التنمية المستدامة بوزارة التخطيط والتنمية الاقتصادية.</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Knowledge Base Modal -->
+        <div id="ingestion-modal" class="modal-overlay hidden">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h2>📊 قاعدة المعرفة الرسمية</h2>
+                    <button id="close-modal-btn" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <span class="stat-num">55</span>
+                            <span class="stat-lbl">إجمالي التقارير</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-num">1,053</span>
+                            <span class="stat-lbl">إجمالي الصفحات</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-num">1,037</span>
+                            <span class="stat-lbl">الفقرات المفهرسة</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-num">0</span>
+                            <span class="stat-lbl">أخطاء الاستخراج</span>
+                        </div>
+                    </div>
+
+                    <div class="source-editions-info">
+                        <h3>📚 مصادر البيانات الرسمية:</h3>
+                        <ul>
+                            <li><strong>الإصدار الأول (2021)</strong>: 27 تقريراً لمحافظات مصر يغطي 32 مؤشراً قطاعياً بالتعاون مع صندوق الأمم المتحدة للسكان (UNFPA).</li>
+                            <li><strong>الإصدار الثاني (2024/2025)</strong>: 27 تقريراً للمحافظات يغطي 50 مؤشراً بالتعاون مع برنامج الأمم المتحدة الإنمائي (UNDP) وبصيرة، إلى جانب <strong>تقرير الملخص العام</strong> لدرجات المحافظات بمنهجية OECD.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

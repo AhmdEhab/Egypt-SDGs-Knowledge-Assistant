@@ -37,6 +37,7 @@ class ChatRequest(BaseModel):
     language: Optional[str] = "ar"
 
 @app.get("/api/status")
+@app.get("/status")
 def get_status():
     return {
         "status": "online",
@@ -50,15 +51,18 @@ def get_status():
     }
 
 @app.get("/api/governorates")
+@app.get("/governorates")
 def get_governorates():
     govs = engine.metrics_db.get("governorates", {})
     return list(govs.values())
 
 @app.get("/api/sdgs")
+@app.get("/sdgs")
 def get_sdgs():
     return engine.metrics_db.get("sdg_definitions", [])
 
 @app.get("/api/compare")
+@app.get("/compare")
 def compare_governorates(gov1: str, gov2: str, lang: str = "ar"):
     table, chart = engine._build_gov_comparison_data(gov1, gov2, lang)
     return {
@@ -67,6 +71,7 @@ def compare_governorates(gov1: str, gov2: str, lang: str = "ar"):
     }
 
 @app.get("/api/ingestion/summary")
+@app.get("/ingestion/summary")
 def get_ingestion_summary():
     report_path = os.path.join(os.path.dirname(__file__), "..", "data", "ingestion_report.json")
     if os.path.exists(report_path):
@@ -75,6 +80,7 @@ def get_ingestion_summary():
     return {"error": "Report not found"}
 
 @app.post("/api/chat")
+@app.post("/chat")
 def chat(request: ChatRequest):
     if not request.message or not request.message.strip():
         raise HTTPException(status_code=400, detail="Message cannot be empty")
@@ -127,16 +133,27 @@ def chat(request: ChatRequest):
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
-# Mount static files for frontend
-frontend_dir = os.path.join(os.path.dirname(__file__), "..", "frontend")
-if os.path.exists(frontend_dir):
-    app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+# Find static/public directory
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+public_dir = os.path.join(root_dir, "public")
+frontend_dir = os.path.join(root_dir, "frontend")
+
+static_dir_to_use = public_dir if os.path.exists(public_dir) else frontend_dir
+if os.path.exists(static_dir_to_use):
+    app.mount("/static", StaticFiles(directory=static_dir_to_use), name="static")
 
 @app.get("/")
+@app.get("/api")
+@app.get("/api/")
+@app.get("/api/index")
+@app.get("/api/index.py")
 def serve_index():
-    index_file = os.path.join(frontend_dir, "index.html")
-    if os.path.exists(index_file):
-        return FileResponse(index_file)
+    for candidate in [
+        os.path.join(public_dir, "index.html"),
+        os.path.join(frontend_dir, "index.html")
+    ]:
+        if os.path.exists(candidate):
+            return FileResponse(candidate)
     return {"message": "Egypt SDGs Knowledge Assistant API is running"}
 
 if __name__ == "__main__":
