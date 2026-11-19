@@ -469,128 +469,165 @@ class RAGEngine:
         lang = entities["lang"]
         govs = entities["governorates"]
         sdgs = entities["sdgs"]
-        is_comp = entities["is_comparison"]
-        
-        parts = []
-        
-        # 1. Comparison between Two Governorates
-        if is_comp and len(govs) >= 2:
-            g1 = self.metrics_db["governorates"].get(govs[0], {})
-            g2 = self.metrics_db["governorates"].get(govs[1], {})
-            g1_name = g1.get("ar" if lang == "ar" else "en", govs[0])
-            g2_name = g2.get("ar" if lang == "ar" else "en", govs[1])
-            
+
+        def numeric_score(value):
+            match = re.search(r"\d+(?:\.\d+)?", str(value))
+            return float(match.group(0)) if match else None
+
+        if entities["is_comparison"] and len(govs) >= 2 and table and table.get("rows"):
+            g1_name = self.metrics_db["governorates"].get(govs[0], {}).get("ar" if lang == "ar" else "en", govs[0])
+            g2_name = self.metrics_db["governorates"].get(govs[1], {}).get("ar" if lang == "ar" else "en", govs[1])
+            differences = []
+            for row in table["rows"]:
+                s1 = numeric_score(row.get("gov1_score"))
+                s2 = numeric_score(row.get("gov2_score"))
+                if s1 is not None and s2 is not None:
+                    goal_name = row.get("sdg_name", "")
+                    if lang == "ar":
+                        goal_name = re.sub(r"\s*\(SDG\s*(\d+)\)", r" (الهدف \1)", goal_name)
+                    differences.append((goal_name, s1, s2, s1 - s2))
             if lang == "ar":
-                parts.append(f"### مقارنة أداء محافظة {g1_name} ومحافظة {g2_name}\n")
-                parts.append(f"استناداً إلى التقارير الرسمية لتوطين أهداف التنمية المستدامة (الإصدار الأول 2021 والإصدار الثاني 2024)، يُظهر تحليل المؤشرات الميدانية الفروق والنتائج التالية:\n")
-                parts.append(f"1. **الهدف الأول (القضاء على الفقر)**: حققت **{g1_name}** درجات قياس وتوطين مدعومة بمستهدفات محددة لعام 2030، بينما أظهرت **{g2_name}** أداءً يعكس وضعها الديموغرافي والاقتصادي الخاص.")
-                parts.append(f"2. **الهدف الرابع (التعليم الجيد)**: سجلت التقارير نسب القيد ومعدلات محو الأمية مع توضيح الفجوات في تجهيز المدارس لاستيعاب ذوي الإعاقة ومعدلات الأمية بين الذكور والإناث.")
-                parts.append(f"3. **الهدف الثالث (الصحة الجيدة والرفاه)**: تميزت مؤشرات تنظيم الأسرة والرعاية الصحية الإنجابية ووفيات الأطفال حديثي الولادة بتحسن في المحافظتين مع اقتراب بعض المؤشرات من مستهدفات 2030.")
-                parts.append(f"\n> **تنويه منهجي هام**: يطبق الإصدار الثاني مؤشر منظمة التعاون الاقتصادي والتنمية (OECD) لقياس درجات إجمالية (من 100) لكل هدف أممي، موضحة في جدول المقارنة والمنحنى البياني أدناه.")
+                parts = [f"### مقارنة {g1_name} و{g2_name}", "الدرجات تلخص أداء عدة مؤشرات لكل هدف، من 100؛ وليست نسبًا مئوية من السكان."]
+                g1_leads = sorted((x for x in differences if x[3] > 0), key=lambda x: x[3], reverse=True)[:3]
+                g2_leads = sorted((x for x in differences if x[3] < 0), key=lambda x: x[3])[:3]
+                if g1_leads:
+                    parts.append(f"\n**أهداف درجتها أعلى في {g1_name}:**")
+                    parts.extend(f"- {name}: {s1:g} مقابل {s2:g} في {g2_name}." for name, s1, s2, _ in g1_leads)
+                if g2_leads:
+                    parts.append(f"\n**أهداف درجتها أعلى في {g2_name}:**")
+                    parts.extend(f"- {name}: {s2:g} مقابل {s1:g} في {g1_name}." for name, s1, s2, _ in g2_leads)
+                parts.append("\nالدرجة الأعلى تعني نتيجة أفضل في هذا المؤشر المركب فقط؛ ولا تكفي وحدها لتفسير كل المؤشرات داخل الهدف.")
             else:
-                parts.append(f"### Performance Comparison: {g1_name} vs {g2_name}\n")
-                parts.append(f"Based on the official Sustainable Development Localization Reports (Editions 1 & 2) published by the Egyptian Ministry of Planning and Economic Development:\n")
-                parts.append(f"- **{g1_name}**: Features specific localized targets for 2030 with measured distances across poverty, education, and public health indicators.")
-                parts.append(f"- **{g2_name}**: Presents distinct achievements in demographic indicators, healthcare access, and infrastructure.")
-                parts.append(f"\n> **Methodological Note**: Edition 2 reports introduce the OECD composite index scoring (0–100 score per SDG), detailed in the comparison table and chart below.")
+                parts = [f"### {g1_name} vs. {g2_name}", "The table shows composite scores out of 100, not percentages of people."]
+                for name, s1, s2, _ in sorted(differences, key=lambda x: abs(x[3]), reverse=True)[:5]:
+                    leader = g1_name if s1 > s2 else g2_name if s2 > s1 else "Tie"
+                    parts.append(f"- {name}: {s1:g}/100 vs. {s2:g}/100; higher score: {leader}.")
+                parts.append("A higher composite score is not a substitute for reviewing the individual indicators.")
             return "\n".join(parts)
 
-        # 2. Specific Governorate (e.g. Gharbia, Beheira, Cairo)
-        elif len(govs) == 1:
+        if len(govs) == 1:
             gid = govs[0]
             g_meta = self.metrics_db["governorates"].get(gid, {})
             g_name = g_meta.get("ar" if lang == "ar" else "en", gid)
-            gov_chunks = [c for c in chunks if c["governorate_id"] == gid]
-            
-            if lang == "ar":
-                parts.append(f"### تقرير أداء محافظة {g_name} في أهداف التنمية المستدامة\n")
-                parts.append(f"وفقاً للبيانات الرسمية المستخرجة من تقارير وزارة التخطيط والتنمية الاقتصادية الخاصة بمحافظة **{g_name}**:\n")
-                
-                if entities["is_edition_comparison"]:
-                    parts.append(f"#### التطور والتحسن بين الإصدار الأول (2021) والإصدار الثاني (2024):\n")
-                    parts.append(f"- **توسيع قاعدة المؤشرات**: زيادة عدد المؤشرات التي تمت تغطيتها من 32 مؤشراً في الإصدار الأول إلى 50 مؤشراً في الإصدار الثاني استناداً لبيانات الجهاز المركزي للتعبئة العامة والإحصاء.")
-                    parts.append(f"- **منهجية التقييم**: إضافة منهجية OECD لحساب أداء مركب لكل هدف أممي وتحديد درجة واضحة للمحافظة من 100.")
-                    parts.append(f"- **المؤشرات الصحية والاجتماعية**: أظهرت البيانات تحسناً ملموساً في مؤشرات وفيات الأطفال حديثي الولادة ودون الخامسة، ونسب الولادات بإشراف طبي، واستخدام وسائل تنظيم الأسرة الحديثة.")
-                
-                parts.append(f"#### أهم الإحصاءات والنتائج المسجلة:")
-                for c in gov_chunks[:4]:
-                    txt_lines = [l.strip() for l in c["text"].split("\n") if l.strip()]
-                    key_lines = [l for l in txt_lines if any(k in l for k in ["نسبة", "معدل", "الفقر", "الترتيب", "مستهدف", "البطالة", "التعليم", "الصحة", "أطباء", "أمية"])]
-                    if key_lines:
-                        sample = " | ".join(key_lines[:3])
-                        parts.append(f"- **{c['edition_name']} (ص {c['page_number']})**: {sample}")
-                        
-                if entities["is_challenges"]:
-                    parts.append(f"\n#### أهم المؤشرات التي تحتاج إلى تحسين وتسريع العمل بمحافظة {g_name}:")
-                    parts.append(f"1. **معدلات الأمية وقيد التعليم**: تكثيف جهود محو الأمية وخاصة بين الإناث وزيادة نسبة المدارس المجهزة للطلاب من ذوي الإعاقة.")
-                    parts.append(f"2. **التغذية والأنيميا**: العمل على خفض معدلات التقزم والهزال والأنيميا بين الأطفال دون سن الخامسة للوصول لمستهدف 2030.")
-                    parts.append(f"3. **التشغيل والمشاركة الاقتصادية**: معالجة فجوة البطالة بين الإناث والذكور ودعم برامج التدريب المهني للشباب.")
-                    parts.append(f"4. **معدل الأطباء**: زيادة نسبة الأطباء البشريين والمرافق الصحية لكل 10,000 نسمة.")
-            else:
-                parts.append(f"### SDG Localization Status for {g_name} Governorate\n")
-                parts.append(f"According to the official MPED SDG Localization reports for **{g_name}**:\n")
-                for c in gov_chunks[:3]:
-                    parts.append(f"- **{c['edition_name']} (Page {c['page_number']})**: Detailed report tracking localized indicators across poverty, maternal & child health, education, and 2030 targets.")
-                if entities["is_challenges"]:
-                    parts.append(f"\n#### Priority Areas for Improvement in {g_name}:")
-                    parts.append(f"- Reducing female illiteracy rates and upgrading school accessibility for students with disabilities.")
-                    parts.append(f"- Addressing child nutrition metrics (stunting and anemia rates) toward 2030 targets.")
-                    parts.append(f"- Bridging the female labor participation gap and increasing vocational training.")
-            return "\n".join(parts)
 
-        # 3. Specific SDG (e.g. SDG 4 Education)
-        elif sdgs:
+            if entities["is_targets"]:
+                if lang == "ar":
+                    return (
+                        f"### مستهدفات 2030 في محافظة {g_name}\n"
+                        "يحدد التقرير مستهدفًا لكل مؤشر، مع القيمة الحالية والفجوة عن المستهدف. هذه الأرقام تختلف من مؤشر لآخر.\n\n"
+                        "المقاطع المستخرجة من الجداول لا تربط كل رقم بمؤشره بوضوح كافٍ، لذلك لن أذكر قيمة قد تكون في غير موضعها. "
+                        "اذكر المؤشر الذي تريده، مثل الفقر أو التعليم، لأعرض بياناته ومصدره المحدد."
+                    )
+                return (
+                    f"### 2030 targets for {g_name}\n"
+                    "The report gives each indicator its own target, current value, and gap. The extracted table text does not reliably associate every number with its indicator, "
+                    "so I will not guess. Ask about a specific indicator to narrow the source."
+                )
+
+            score_map = g_meta.get("sdg_scores_edition_2_summary", {})
+            if not score_map:
+                score_map = {
+                    str(goal_num): self.metrics_db.get("oecd_scores_by_sdg", {}).get(str(goal_num), {}).get(gid)
+                    for goal_num in range(1, 18)
+                }
+            goal_names = {
+                str(item["num"]): item.get("name_ar" if lang == "ar" else "name_en", f"SDG {item['num']}")
+                for item in self.metrics_db.get("sdg_definitions", [])
+            }
+            has_zero_score = any(numeric_score(value) == 0 for value in score_map.values())
+            scores = []
+            for number, value in score_map.items():
+                score = numeric_score(value)
+                if score is not None and score > 0:
+                    name = goal_names.get(str(number), SDG_INFO.get(int(number), {}).get("ar" if lang == "ar" else "en", f"SDG {number}"))
+                    scores.append((name, score))
+            if lang == "ar":
+                if entities["is_edition_comparison"]:
+                    return (
+                        f"### مقارنة الإصدارين لمحافظة {g_name}\n"
+                        "الإصداران لا يعرضان دائمًا المؤشرات نفسها، كما تختلف طريقة التقييم بينهما. لذلك لا يعني اختلاف رقمين بالضرورة تحسنًا أو تراجعًا.\n\n"
+                        "للمقارنة الدقيقة، يجب اختيار مؤشر واحد ومراجعة قيمته وسنته في كل إصدار. درجات الإصدار الثاني تلخص عدة مؤشرات لكل هدف، وليست نسبًا مئوية."
+                    )
+                if not scores:
+                    return f"لا أجد في الملخص الحالي درجات منظمة كافية لعرضها لمحافظة {g_name}. جرّب سؤالًا عن مؤشر محدد."
+                highest = sorted(scores, key=lambda item: item[1], reverse=True)[:3]
+                lowest = sorted(scores, key=lambda item: item[1])[:3]
+                parts = [
+                    f"### ملخص أداء محافظة {g_name}",
+                    "يعرض هذا الملخص درجات الإصدار الثاني (2024/2025). كل درجة تلخص عدة مؤشرات ضمن هدف واحد، من 100؛ وليست نسبة من السكان.",
+                ]
+                if entities["is_challenges"]:
+                    parts.append("\n**أقل الدرجات المتاحة في الملخص:**")
+                    parts.extend(f"- {name}: {score:g}/100." for name, score in lowest)
+                    parts.append("\nهذه نقاط تستحق مراجعة المؤشرات التفصيلية؛ وليست بحد ذاتها توصيات رسمية أو تفسيرًا لأسباب النتيجة.")
+                else:
+                    parts.append("\n**أعلى الدرجات المتاحة:**")
+                    parts.extend(f"- {name}: {score:g}/100." for name, score in highest)
+                    parts.append("\n**أقل الدرجات المتاحة:**")
+                    parts.extend(f"- {name}: {score:g}/100." for name, score in lowest)
+                    parts.append("\nهذه الدرجات تعطي صورة عامة فقط؛ أما تفاصيل كل مؤشر فتجدها في المصادر المشار إليها أسفل الإجابة.")
+                if has_zero_score:
+                    parts.append("\nلم أدرج أي درجة صفرية؛ لأن الملخص لا يوضح هل تعني نتيجة فعلية أم أن البيانات غير متاحة.")
+                return "\n".join(parts)
+
+            if not scores:
+                return f"The available structured summary does not contain reliable SDG scores for {g_name}. Ask about a specific indicator."
+            highest = sorted(scores, key=lambda item: item[1], reverse=True)[:3]
+            lowest = sorted(scores, key=lambda item: item[1])[:3]
+            lines = [f"### {g_name}: SDG score summary", "Scores are out of 100 and are not population percentages.", "\n**Highest available scores:**"]
+            lines.extend(f"- {name}: {score:g}/100." for name, score in highest)
+            lines.append("\n**Lowest available scores:**")
+            lines.extend(f"- {name}: {score:g}/100." for name, score in lowest)
+            return "\n".join(lines)
+
+        if sdgs and table and table.get("rows"):
             sdg_num = sdgs[0]
             sdg_meta = SDG_INFO.get(sdg_num, {"ar": f"الهدف {sdg_num}", "en": f"SDG {sdg_num}"})
-            
+            top_rows = table["rows"][:3]
             if lang == "ar":
-                parts.append(f"### أداء المحافظات في {sdg_meta['ar']} (الهدف الأممي {sdg_num})\n")
-                parts.append(f"وفقاً لتقييم منظمة التعاون الاقتصادي والتنمية (OECD) وتقرير الملخص العام للإصدار الثاني الصادر عن **وزارة التخطيط والتنمية الاقتصادية**:\n")
-                if table and "rows" in table:
-                    top_3 = table["rows"][:3]
-                    parts.append("#### المحافظات الأعلى أداءً في هذا الهدف:")
-                    for item in top_3:
-                        parts.append(f"- **{item['governorate']}**: الدرجة **{item['score']}** (الترتيب: {item['rank']})")
-                parts.append(f"\n#### مستهدفات التنمية المستدامة لعام 2030 لهذا الهدف:")
-                parts.append(f"- التوافق مع رؤية مصر 2030 للوصول إلى معدلات التغطية الشاملة.")
-                parts.append(f"- تسريع وتيرة العمل المحلي وتقليل الفوارق التنموية بين محافظات الوجه البحري والوجه القبلي والمحافظات الحدودية.")
+                parts = [f"### أعلى المحافظات في {sdg_meta['ar']}", "الترتيب التالي مبني على درجات تلخص عدة مؤشرات لكل هدف، من 100:"]
+                parts.extend(f"{i}. **{row['governorate']}** — {row['score']} (الترتيب {row['rank']})." for i, row in enumerate(top_rows, 1))
             else:
-                parts.append(f"### Governorate Performance in {sdg_meta['en']} (SDG {sdg_num})\n")
-                parts.append(f"Based on the official MPED Summary Report using the OECD localization scoring methodology:\n")
-                if table and "rows" in table:
-                    for item in table["rows"][:3]:
-                        parts.append(f"- **{item['governorate']}**: Score **{item['score']}** (Rank: {item['rank']})")
+                parts = [f"### Highest-ranked governorates in {sdg_meta['en']}", "The ranking uses the report's composite scores out of 100:"]
+                parts.extend(f"{i}. **{row['governorate']}** — {row['score']} (rank {row['rank']})." for i, row in enumerate(top_rows, 1))
             return "\n".join(parts)
 
-        # 4. Targets 2030
-        elif entities["is_targets"]:
+        if entities["is_targets"]:
             if lang == "ar":
-                parts.append(f"### مستهدفات التنمية المستدامة لعام 2030 في تقارير التوطين المصرية\n")
-                parts.append(f"تستند مستهدفات 2030 في تقارير توطين التنمية المستدامة إلى **استراتيجية التنمية المستدامة: رؤية مصر 2030** مع مواءمتها مع الأهداف الأممية للأمم المتحدة:\n")
-                parts.append(f"1. **مبدأ عدم ترك أحد خلف الركب**: تحديد مستهدفات كمية رقمية لكل محافظة على حدة، بما يراعي الخصائص السكانية والجغرافية ونقطة البداية لكل محافظة.")
-                parts.append(f"2. **حساب البُعد عن المستهدف**: يقيس كل تقرير سنوي الفارق بين القيمة الحالية للمؤشر والقيمة المرجو تحقيقها في 2030، ومعدل التغيير السنوي المطلوب.")
-                parts.append(f"3. **الأهداف ذات الأولوية**: القضاء على الفقر المدقع، خفض وفيات الأمهات والأطفال حديثي الولادة، القضاء على الأمية، وتوفير مصادر محسنة للشرب والصرف الصحي بنسبة 100%.")
-            else:
-                parts.append(f"### Egypt's 2030 Sustainable Development Localization Targets\n")
-                parts.append(f"Egypt's SDG Localization reports anchor each governorate's trajectory in Egypt Vision 2030:\n")
-                parts.append(f"- Establishing quantified annual progress rates for each indicator.")
-                parts.append(f"- Computing the 'Distance to 2030 Target' for individual governorates to identify priority acceleration areas.")
-            return "\n".join(parts)
+                return (
+                    "### مستهدفات التنمية المستدامة لعام 2030\n"
+                    "لكل مؤشر مستهدف خاص، وتعرض التقارير عادةً قيمته الحالية والفجوة المتبقية ومعدل التغيير المطلوب. "
+                    "اذكر اسم المحافظة أو المؤشر المطلوب حتى تكون الإجابة محددة، لأن المستهدفات ليست رقمًا واحدًا لكل مصر."
+                )
+            return (
+                "### 2030 sustainable development targets\n"
+                "Each indicator has its own target, current value, and gap. Name a governorate or indicator for a specific answer; there is no single target number for all of Egypt."
+            )
 
-        # 5. General Report Findings
-        else:
-            if lang == "ar":
-                parts.append(f"### نتائج مستخلصة من تقارير توطين أهداف التنمية المستدامة\n")
-                parts.append(f"استناداً إلى التقارير الرسمية الصادرة عن **وزارة التخطيط والتنمية الاقتصادية والتعاون الدولي**:\n")
-                for c in chunks[:4]:
-                    snippet = c["text"][:280].replace("\n", " ")
-                    parts.append(f"- **{c['edition_name']} - {c['governorate_ar']} (ص {c['page_number']})**: {snippet}...")
-            else:
-                parts.append(f"### Findings from Egypt's SDG Localization Reports\n")
-                for c in chunks[:4]:
-                    snippet = c["text"][:280].replace("\n", " ")
-                    parts.append(f"- **{c['edition_name']} - {c['governorate_en']} (Page {c['page_number']})**: {snippet}...")
-            return "\n".join(parts)
+        text = " ".join(chunk.get("text", "") for chunk in chunks)
+        topics = [
+            ("الفقر", "الفقر"), ("التغذية", "التغذية"), ("الصحة", "الصحة"),
+            ("التعليم", "التعليم"), ("العمل والبطالة", "البطالة"),
+            ("المياه والصرف الصحي", "مياه"), ("الطاقة", "الطاقة"),
+        ]
+        found_topics = [label for label, keyword in topics if keyword in text]
+        if lang == "ar":
+            if found_topics:
+                return (
+                    "### ملخص ما وجدته في التقارير\n"
+                    "المقاطع المتاحة تتناول: " + "، ".join(found_topics) + ".\n\n"
+                    "بعض جداول PDF تظهر نصوصها وأرقامها بترتيب غير واضح عند استخراجها؛ لذلك لن أعرض مقطعًا مشوشًا أو أنسب رقمًا إلى مؤشر دون تحقق. "
+                    "حدّد المحافظة أو المؤشر لأقدّم ملخصًا أدق مع المصدر."
+                )
+            return UNAVAILABLE_MSG_AR
+        if found_topics:
+            return (
+                "### Summary of the retrieved reports\n"
+                "The available passages cover: " + ", ".join(found_topics) + ".\n\n"
+                "Some PDF tables are extracted with unclear number-to-indicator order, so I will not quote a potentially mismatched figure. "
+                "Specify a governorate or indicator for a more precise, cited summary."
+            )
+        return UNAVAILABLE_MSG_EN
 
     def _call_gemini_api(self, query, chunks, entities, api_key, history=None):
         import requests
@@ -613,7 +650,9 @@ class RAGEngine:
             "4. Clearly distinguish between the First Edition (2021) and Second Edition (2024/2025) and explain methodology differences when comparing.\n"
             "5. Include precise source citations (Report name, Governorate, Edition, Page Number, and link) for all factual claims.\n"
             "6. Support both standard Arabic and Egyptian conversational phrasing naturally. When user asks in Arabic, reply in Arabic; when in English, reply in English.\n"
-            "7. Format your answer with clean Markdown, bullet points, and highlight key metrics."
+            "7. Format your answer with clean Markdown, bullet points, and highlight key metrics.\n"
+            "8. The retrieved context may contain PDF table text with broken column order. Never copy garbled fragments or join values with vertical bars; only state a number when it is clearly matched to its indicator.\n"
+            "9. Write concise, coherent Arabic with short sentences. If a table value is ambiguous, say it cannot be verified instead of guessing."
         )
         
         prompt = f"User Question: {query}\n\nRetrieved Official Context from MPED Reports:\n{context_str}\n\nPlease generate a precise, well-structured, source-backed answer."
