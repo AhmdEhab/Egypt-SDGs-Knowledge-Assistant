@@ -26,6 +26,10 @@ venv/
 .venv/
 ENV/
 
+# Large Raw PDF files (Runtime knowledge base is in data/processed)
+data/reports/
+data/raw_html/
+
 # Environment Variables & Secrets
 .env
 .env.local
