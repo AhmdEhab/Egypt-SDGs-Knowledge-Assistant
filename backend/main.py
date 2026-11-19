@@ -143,6 +143,7 @@ if os.path.exists(static_dir_to_use):
     app.mount("/static", StaticFiles(directory=static_dir_to_use), name="static")
 
 @app.get("/")
+@app.get("/index.html")
 @app.get("/api")
 @app.get("/api/")
 @app.get("/api/index")
