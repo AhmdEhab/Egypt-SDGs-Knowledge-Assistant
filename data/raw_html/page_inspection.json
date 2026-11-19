@@ -1,0 +1,293 @@
+{
+  "edition_1": {
+    "url": "https://mped.gov.eg/DynamicPage?id=107",
+    "status": 200,
+    "reports": [
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/6_القاهرة.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/1_اسكندرية.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/b_أسوان.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/6_أسيوط.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/4_الإسماعيلية.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/c_الأقصر.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/d_البحر_الأحمر.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/3_البحيرة.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/c_الجيزة.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/8_الدقهلية.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/8_46913875-2d39-4e0a-94d5-26c59c51e264_السويس.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/d_الشرقية.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/9_الغربية.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/3_الفيوم.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/8_القليوبية.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/e_المنوفية.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/8_المنيا.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/c_الوادي_الجديد.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/4_بني_سويف.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/a_بورسعيد.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/e_جنوب_سيناء.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/9_دمياط.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/f_سوهاج.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/4_شمال_سيناء.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/3_قنا.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/8_كفر_الشيخ.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedfiles/f_مطروح.pdf",
+        "text": "تحميل"
+      }
+    ],
+    "all_pdfs": [
+      "https://mped.gov.eg/AdminPanel/sharedfiles/6_القاهرة.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/1_اسكندرية.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/b_أسوان.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/6_أسيوط.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/4_الإسماعيلية.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/c_الأقصر.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/d_البحر_الأحمر.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/3_البحيرة.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/c_الجيزة.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/8_الدقهلية.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/8_46913875-2d39-4e0a-94d5-26c59c51e264_السويس.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/d_الشرقية.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/9_الغربية.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/3_الفيوم.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/8_القليوبية.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/e_المنوفية.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/8_المنيا.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/c_الوادي_الجديد.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/4_بني_سويف.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/a_بورسعيد.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/e_جنوب_سيناء.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/9_دمياط.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/f_سوهاج.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/4_شمال_سيناء.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/3_قنا.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/8_كفر_الشيخ.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedfiles/f_مطروح.pdf"
+    ]
+  },
+  "edition_2": {
+    "url": "https://mped.gov.eg/DynamicPage?id=118",
+    "status": 200,
+    "reports": [
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/UNDP-_Arabic_Localization_Summary_Report_OECD_9-3-2025_Final__838.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/2_UNDP┬⌐_ALEX_Report_21-11-2024_compressed_9fd.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/1_UNDP┬⌐_Cairo_Report_19-11-2024_compressed_b4c.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/21_UNDP┬⌐_Aswan_Report_21-11-2024_e68.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/3_UNDP┬⌐_PortSaid_Report_21-11-2024_compressed_439.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/18_UNDP┬⌐_Assiut_Report_21-11-2024_e42.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/4_UNDP┬⌐_SUEZ_Report_21-11-2024_compressed_e0c.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/5_UNDP┬⌐_Damietta_Report_21-11-2024_compressed_8dd.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/22_UNDP┬⌐_Luxor_Report_21-11-2024_b95.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/6_UNDP┬⌐_Dakahlia_Report_21-11-2024_compressed_562.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/23_UNDP┬⌐_REDSEA_Report_21-11-2024_803.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/7_UNDP┬⌐_Sharkia_Report_21-11-2024_compressed_9c5.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/8_UNDP┬⌐_Qalyubia_Report_21-11-2024_compressed_eb3.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/9_UNDP┬⌐_KafrElsheikh_Report_21-11-2024_compressed_6dc.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/10_UNDP┬⌐_Gharbia_Report_21-11-2024_compressed_0d5.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/11_UNDP┬⌐_Menofia_Report_21-11-2024_compressed_56b.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/12_UNDP┬⌐_Behira_Report_21-11-2024_compressed_b28.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/13_UNDP┬⌐_Ismailia_Report_21-11-2024_compressed_afb.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/16_UNDP┬⌐_Faiyum_Report_21-11-2024_779.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/14_UNDP┬⌐_Giza_Report_21-11-2024_compressed_d00.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/17_UNDP┬⌐_Minya_Report_21-11-2024_31c.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/24_UNDP┬⌐_NewValley_Report_21-11-2024_ffa.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/15_UNDP┬⌐_BeniSuef_Report_21-11-2024_c74.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/27_UNDP┬⌐_South_sinai_Report_21-11-2024_997.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/19_UNDP┬⌐_Sohag_Report_21-11-2024_f44.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/26_UNDP┬⌐_North_sinai_Report_21-11-2024_403.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/20_UNDP┬⌐_Qena_Report_21-11-2024_ebc.pdf",
+        "text": "تحميل"
+      },
+      {
+        "href": "https://mped.gov.eg/AdminPanel/sharedFiles/25_UNDP┬⌐_Matrouh_Report_21-11-2024_a52.pdf",
+        "text": "تحميل"
+      }
+    ],
+    "all_pdfs": [
+      "https://mped.gov.eg/AdminPanel/sharedFiles/UNDP-_Arabic_Localization_Summary_Report_OECD_9-3-2025_Final__838.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/2_UNDP┬⌐_ALEX_Report_21-11-2024_compressed_9fd.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/1_UNDP┬⌐_Cairo_Report_19-11-2024_compressed_b4c.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/21_UNDP┬⌐_Aswan_Report_21-11-2024_e68.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/3_UNDP┬⌐_PortSaid_Report_21-11-2024_compressed_439.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/18_UNDP┬⌐_Assiut_Report_21-11-2024_e42.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/4_UNDP┬⌐_SUEZ_Report_21-11-2024_compressed_e0c.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/5_UNDP┬⌐_Damietta_Report_21-11-2024_compressed_8dd.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/22_UNDP┬⌐_Luxor_Report_21-11-2024_b95.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/6_UNDP┬⌐_Dakahlia_Report_21-11-2024_compressed_562.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/23_UNDP┬⌐_REDSEA_Report_21-11-2024_803.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/7_UNDP┬⌐_Sharkia_Report_21-11-2024_compressed_9c5.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/8_UNDP┬⌐_Qalyubia_Report_21-11-2024_compressed_eb3.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/9_UNDP┬⌐_KafrElsheikh_Report_21-11-2024_compressed_6dc.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/10_UNDP┬⌐_Gharbia_Report_21-11-2024_compressed_0d5.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/11_UNDP┬⌐_Menofia_Report_21-11-2024_compressed_56b.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/12_UNDP┬⌐_Behira_Report_21-11-2024_compressed_b28.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/13_UNDP┬⌐_Ismailia_Report_21-11-2024_compressed_afb.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/16_UNDP┬⌐_Faiyum_Report_21-11-2024_779.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/14_UNDP┬⌐_Giza_Report_21-11-2024_compressed_d00.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/17_UNDP┬⌐_Minya_Report_21-11-2024_31c.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/24_UNDP┬⌐_NewValley_Report_21-11-2024_ffa.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/15_UNDP┬⌐_BeniSuef_Report_21-11-2024_c74.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/27_UNDP┬⌐_South_sinai_Report_21-11-2024_997.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/19_UNDP┬⌐_Sohag_Report_21-11-2024_f44.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/26_UNDP┬⌐_North_sinai_Report_21-11-2024_403.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/20_UNDP┬⌐_Qena_Report_21-11-2024_ebc.pdf",
+      "https://mped.gov.eg/AdminPanel/sharedFiles/25_UNDP┬⌐_Matrouh_Report_21-11-2024_a52.pdf"
+    ]
+  }
+}
