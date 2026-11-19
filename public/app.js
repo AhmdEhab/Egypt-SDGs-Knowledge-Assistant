@@ -21,38 +21,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const UI_STRINGS = {
         ar: {
             title: "مساعد المعرفة لأهداف التنمية المستدامة في مصر",
-            subtitle: "استكشف تقارير توطين أهداف التنمية المستدامة الرسمية الصادرة عن وزارة التخطيط والتنمية الاقتصادية",
-            placeholder: "اسأل سؤالاً عن أي محافظة أو مؤشر أممي في التقارير الرسمية...",
-            clearText: "مسح",
-            kbStatsText: "55 تقريراً",
-            officialBadge: "🏛️ مصدر رسمي معتمد",
-            welcomeTitle: "مرحباً بك في المنصة الذكية لتقارير التنمية المستدامة",
-            welcomeDesc: "يتيح هذا المساعد التفاعلي للمشاركين في العرض التقديمي الاستفسار عن المؤشرات والإحصاءات والمستهدفات الخاصة بمحافظات مصر الـ 27، والمقارنة بين الإصدار الأول (2021) والإصدار الثاني (2024) وتقرير الملخص العام وفق منهجية منظمة التعاون الاقتصادي والتنمية (OECD).",
-            suggestedHeading: "💡 أسئلة استرشادية مقترحة:",
-            footerNote: "📌 يتم الاعتماد حصرياً على البيانات الرسمية لتقارير توطين أهداف التنمية المستدامة بوزارة التخطيط والتنمية الاقتصادية.",
-            citationsTitle: "📚 المراجع الرسمية من التقارير:",
-            downloadPdf: "تحميل التقرير الرسمي PDF",
-            page: "ص",
+            subtitle: "اسأل عن مؤشرات التنمية المستدامة في محافظات مصر بالاعتماد على التقارير الرسمية.",
+            placeholder: "اكتب سؤالك عن محافظة أو هدف أو مؤشر...",
+            clearText: "محادثة جديدة",
+            clearTitle: "بدء محادثة جديدة",
+            kbStatsText: "55 تقريرًا رسميًا",
+            suggestedHeading: "اختر سؤالًا للبدء",
+            footerNote: "الإجابات مبنية على التقارير الرسمية المشار إليها.",
+            citationsTitle: "المصادر الرسمية:",
+            downloadPdf: "فتح التقرير الرسمي",
+            page: "ص.",
+            catGov: "محافظة",
+            catCompare: "مقارنة",
+            catSdg: "هدف تنموي",
+            catIndicator: "مؤشرات",
+            catEdition: "مقارنة الإصدارات",
+            catTargets: "مستهدفات 2030",
             edition1: "الإصدار الأول (2021)",
-            edition2: "الإصدار الثاني (2024)",
+            edition2: "الإصدار الثاني (2024/2025)",
             summaryReport: "تقرير الملخص العام (OECD)"
         },
         en: {
             title: "Egypt SDGs Knowledge Assistant",
-            subtitle: "Explore Egypt's Sustainable Development Goals through official governorate reports (MPED)",
-            placeholder: "Ask about any governorate, SDG indicator, or 2030 target...",
-            clearText: "Clear",
-            kbStatsText: "55 Reports",
-            officialBadge: "🏛️ Official Government Source",
-            welcomeTitle: "Welcome to Egypt SDGs Knowledge Assistant",
-            welcomeDesc: "Interact directly with official SDG Localization Reports across Egypt's 27 governorates. Compare Edition 1 (2021) and Edition 2 (2024), analyze localized targets, and review OECD composite index scores.",
-            suggestedHeading: "💡 Suggested Presentation Inquiries:",
-            footerNote: "📌 Powered strictly by official data from the Ministry of Planning and Economic Development localization reports.",
-            citationsTitle: "📚 Official Report Citations:",
-            downloadPdf: "Download Official PDF",
-            page: "P.",
+            subtitle: "Ask about SDG indicators in Egypt's governorates using official reports.",
+            placeholder: "Ask about a governorate, goal, or indicator...",
+            clearText: "New chat",
+            clearTitle: "Start a new chat",
+            kbStatsText: "55 official reports",
+            suggestedHeading: "Choose a question to get started",
+            footerNote: "Answers are based on the official reports cited below.",
+            citationsTitle: "Official sources:",
+            downloadPdf: "Open official report",
+            page: "p.",
+            catGov: "Governorate",
+            catCompare: "Comparison",
+            catSdg: "SDG",
+            catIndicator: "Indicators",
+            catEdition: "Editions",
+            catTargets: "2030 targets",
             edition1: "First Edition (2021)",
-            edition2: "Second Edition (2024)",
+            edition2: "Second Edition (2024/2025)",
             summaryReport: "OECD Summary Report"
         }
     };
@@ -76,12 +84,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('app-subtitle').textContent = s.subtitle;
         userInput.placeholder = s.placeholder;
         document.getElementById('clear-text').textContent = s.clearText;
+        clearChatBtn.title = s.clearTitle;
         document.getElementById('kb-stats-text').textContent = s.kbStatsText;
-        document.getElementById('badge-official').textContent = s.officialBadge;
-        document.getElementById('welcome-title').textContent = s.welcomeTitle;
-        document.getElementById('welcome-desc').innerHTML = s.welcomeDesc;
         document.getElementById('suggested-heading').textContent = s.suggestedHeading;
         document.getElementById('footer-note').textContent = s.footerNote;
+        document.getElementById('cat-gov').textContent = s.catGov;
+        document.getElementById('cat-compare').textContent = s.catCompare;
+        document.getElementById('cat-sdg').textContent = s.catSdg;
+        document.getElementById('cat-indicator').textContent = s.catIndicator;
+        document.getElementById('cat-edition').textContent = s.catEdition;
+        document.getElementById('cat-targets').textContent = s.catTargets;
 
         // Update suggested chips text
         document.querySelectorAll('.suggested-chip').forEach(chip => {

@@ -28,7 +28,7 @@
                     </div>
                     <div class="brand-text">
                         <h1 id="app-title">مساعد المعرفة لأهداف التنمية المستدامة في مصر</h1>
-                        <p id="app-subtitle">استكشف تقارير توطين أهداف التنمية المستدامة الرسمية الصادرة عن وزارة التخطيط والتنمية الاقتصادية</p>
+                    <p id="app-subtitle">اسأل عن مؤشرات التنمية المستدامة في محافظات مصر بالاعتماد على التقارير الرسمية.</p>
                     </div>
                 </div>
 
@@ -53,64 +53,56 @@
         <main class="chat-container">
             <!-- Messages Scroll Area -->
             <div id="messages-list" class="messages-list">
-                <!-- Welcome Card -->
-                <div id="welcome-card" class="welcome-card">
-                    <div class="welcome-header">
-                        <div class="badge-pill" id="badge-official">🏛️ مصدر رسمي معتمد</div>
-                        <h2 id="welcome-title">مرحباً بك في المنصة الذكية لتقارير التنمية المستدامة</h2>
-                        <p id="welcome-desc">
-                            يتيح هذا المساعد التفاعلي للمشاركين في العرض التقديمي الاستفسار عن المؤشرات والإحصاءات والمستهدفات الخاصة بمحافظات مصر الـ 27، والمقارنة بين <strong>الإصدار الأول (2021)</strong> و<strong>الإصدار الثاني (2024)</strong> وتقرير الملخص العام وفق منهجية منظمة التعاون الاقتصادي والتنمية (OECD).
-                        </p>
-                    </div>
-
+                <!-- Empty chat state: suggestions only, no preset conversation -->
+                <div id="welcome-card" class="welcome-card empty-state">
                     <div class="suggested-section">
-                        <h3 id="suggested-heading">💡 أسئلة استرشادية مقترحة:</h3>
+                        <h3 id="suggested-heading">اختر سؤالًا مقترحًا للبدء</h3>
                         <div class="suggested-grid">
-                            <button class="suggested-chip" data-question="ما هو وضع محافظة الغربية في تحقيق أهداف التنمية المستدامة؟" data-question-en="What are the main sustainable development challenges in Gharbia?">
+                            <button class="suggested-chip" data-question="لخص أداء محافظة الغربية في أهداف التنمية المستدامة." data-question-en="Summarize Gharbia's SDG performance.">
                                 <span class="chip-icon">🏛️</span>
                                 <div class="chip-content">
-                                    <strong class="chip-cat" id="cat-gov">استكشاف محافظة</strong>
-                                    <span class="chip-text">وضع محافظة الغربية في أهداف التنمية المستدامة</span>
+                            <strong class="chip-cat" id="cat-gov">محافظة</strong>
+                            <span class="chip-text">ملخص أداء محافظة الغربية</span>
                                 </div>
                             </button>
 
                             <button class="suggested-chip" data-question="قارن أداء محافظة القاهرة ومحافظة الإسكندرية." data-question-en="Compare the performance of Cairo and Alexandria.">
                                 <span class="chip-icon">⚖️</span>
                                 <div class="chip-content">
-                                    <strong class="chip-cat" id="cat-compare">مقارنة محافظتين</strong>
-                                    <span class="chip-text">مقارنة أداء القاهرة والإسكندرية</span>
+                            <strong class="chip-cat" id="cat-compare">مقارنة</strong>
+                            <span class="chip-text">قارن القاهرة والإسكندرية</span>
                                 </div>
                             </button>
 
                             <button class="suggested-chip" data-question="ما هو أداء المحافظات في الهدف الرابع الخاص بالتعليم؟" data-question-en="Which governorates show stronger performance in SDG 4 (Education)?">
                                 <span class="chip-icon">🎯</span>
                                 <div class="chip-content">
-                                    <strong class="chip-cat" id="cat-sdg">استكشاف هدف أممي</strong>
-                                    <span class="chip-text">أداء المحافظات في الهدف الرابع (التعليم)</span>
+                            <strong class="chip-cat" id="cat-sdg">هدف تنموي</strong>
+                            <span class="chip-text">المحافظات الأعلى في التعليم</span>
                                 </div>
                             </button>
 
                             <button class="suggested-chip" data-question="ما هي أهم المؤشرات التي تحتاج إلى تحسين في محافظة البحيرة؟" data-question-en="What are the main indicators needing improvement in Beheira?">
                                 <span class="chip-icon">📊</span>
                                 <div class="chip-content">
-                                    <strong class="chip-cat" id="cat-indicator">تحليل المؤشرات والتحديات</strong>
-                                    <span class="chip-text">أهم المؤشرات التي تحتاج لتحسين في البحيرة</span>
+                            <strong class="chip-cat" id="cat-indicator">تحليل مؤشر</strong>
+                            <span class="chip-text">مؤشرات تحتاج إلى تحسين في البحيرة</span>
                                 </div>
                             </button>
 
-                            <button class="suggested-chip" data-question="هل حصل تحسن بين الإصدار الأول والإصدار الثاني في الغربية؟" data-question-en="Compare report editions for Gharbia.">
+                            <button class="suggested-chip" data-question="هل تحسن أداء الغربية بين الإصدارين؟" data-question-en="Did Gharbia improve between the two editions?">
                                 <span class="chip-icon">🔄</span>
                                 <div class="chip-content">
-                                    <strong class="chip-cat" id="cat-edition">مقارنة الإصدارات</strong>
-                                    <span class="chip-text">التحسن بين الإصدار الأول والإصدار الثاني</span>
+                            <strong class="chip-cat" id="cat-edition">مقارنة الإصدارات</strong>
+                            <span class="chip-text">هل تحسن أداء الغربية بين الإصدارين؟</span>
                                 </div>
                             </button>
 
                             <button class="suggested-chip" data-question="ما هي مستهدفات التنمية المستدامة لعام 2030؟" data-question-en="What are Egypt's 2030 Sustainable Development targets?">
                                 <span class="chip-icon">🎯</span>
                                 <div class="chip-content">
-                                    <strong class="chip-cat" id="cat-targets">مستهدفات 2030</strong>
-                                    <span class="chip-text">مستهدفات رؤية مصر 2030 على المستوى المحلي</span>
+                            <strong class="chip-cat" id="cat-targets">رؤية مصر 2030</strong>
+                            <span class="chip-text">ما مستهدفات التنمية لعام 2030؟</span>
                                 </div>
                             </button>
                         </div>
@@ -122,7 +114,7 @@
             <div class="chat-input-bar">
                 <form id="chat-form" class="input-form">
                     <div class="input-wrapper">
-                        <textarea id="user-input" rows="1" placeholder="اسأل سؤالاً عن أي محافظة أو مؤشر أممي في التقارير الرسمية..." autofocus></textarea>
+                        <textarea id="user-input" rows="1" placeholder="اكتب سؤالك عن محافظة أو هدف أو مؤشر..." autofocus></textarea>
                         <button type="submit" id="send-btn" class="send-btn" title="إرسال">
                             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -132,7 +124,7 @@
                     </div>
                 </form>
                 <div class="input-footer">
-                    <span id="footer-note">📌 يتم الاعتماد حصرياً على البيانات الرسمية لتقارير توطين أهداف التنمية المستدامة بوزارة التخطيط والتنمية الاقتصادية.</span>
+                    <span id="footer-note">الإجابات مبنية على التقارير الرسمية المشار إليها.</span>
                 </div>
             </div>
         </main>

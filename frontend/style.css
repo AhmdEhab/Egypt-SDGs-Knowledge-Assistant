@@ -217,6 +217,20 @@ html[dir="ltr"] body {
     width: 100%;
 }
 
+.welcome-card.empty-state {
+    margin: auto;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 18px 8px;
+}
+
+.empty-state .suggested-section h3 {
+    color: var(--primary-dark);
+    text-align: center;
+    margin-bottom: 18px;
+}
+
 .badge-pill {
     display: inline-block;
     background: #ecfdf5;
